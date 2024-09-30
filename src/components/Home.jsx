@@ -5,6 +5,7 @@ import soniPainting from "./../images/sonipainting.png";
 import invoicer from "./../images/invoicer.png";
 import resturantApp from "./../images/thaichilli.png";
 import { useState } from "react";
+import Contact from "./Contact"; // Import the Contact component
 
 export default function Portfolio() {
   const fadeInUp = {
@@ -114,7 +115,6 @@ export default function Portfolio() {
           </div>
         </motion.div>
       </section>
-
       {/* About Me Section */}
       <motion.section
         className="py-20 bg-gray-100"
@@ -132,7 +132,6 @@ export default function Portfolio() {
           </p>
         </div>
       </motion.section>
-
       {/* Skills Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -164,7 +163,6 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
-
       {/* Projects Section */}
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
@@ -192,118 +190,23 @@ export default function Portfolio() {
                   <p className="text-muted-foreground mb-4">
                     {expanded[index]
                       ? project.description
-                      : `${project.description.slice(
-                          0,
-                          MAX_DESCRIPTION_LENGTH
-                        )}`}
+                      : `${project.description.slice(MAX_DESCRIPTION_LENGTH)}`}
                     <span
                       onClick={() => handleToggle(index)}
                       className="text-blue-500 cursor-pointer"
-                      style={{ marginLeft: "5px" }} // Adds a bit of spacing before "See More/Less"
+                      style={{ marginLeft: "5px" }}
                     >
-                      {expanded[index] ? "See Less" : "See More"}
+                      {expanded[index] ? "Show less" : "Read more"}
                     </span>
                   </p>
-
-                  <div className="flex justify-between">
-                    {/* View Project Button */}
-                    <Button
-                      variant="contained"
-                      className="mr-2"
-                      onClick={() => {
-                        if (project.title === "Soni Painting Services") {
-                          window.open("https://sonipainting.com/", "_blank");
-                        } else if (project.title === "Invoicer") {
-                          window.open(
-                            "https://invoicer-1c55.onrender.com/",
-                            "_blank"
-                          );
-                        } else if (
-                          project.title === "Thai Chilli Food Ordering"
-                        ) {
-                          window.open(
-                            "https://resfront.onrender.com/",
-                            "_blank"
-                          );
-                        }
-                      }}
-                    >
-                      View Project
-                    </Button>
-                    {/* View Code Button */}
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        if (project.title === "Soni Painting Services") {
-                          window.open(
-                            "https://github.com/sahzadahmad246/sonipainting",
-                            "_blank"
-                          );
-                        } else if (project.title === "Invoicer") {
-                          window.open(
-                            "https://github.com/sahzadahmad246/invoicer",
-                            "_blank"
-                          );
-                        } else if (
-                          project.title === "Thai Chilli Food Ordering"
-                        ) {
-                          window.open(
-                            "https://github.com/sahzadahmad246/resfront",
-                            "_blank"
-                          );
-                        }
-                      }}
-                    >
-                      View Code
-                    </Button>
-                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
       {/* Contact Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Contact Me</h2>
-          <form className="max-w-lg mx-auto">
-            <div className="mb-4">
-              <TextField
-                label="Your Name"
-                variant="outlined"
-                fullWidth
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <TextField
-                label="Your Email"
-                type="email"
-                variant="outlined"
-                fullWidth
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <TextField
-                label="Message"
-                multiline
-                rows={4}
-                variant="outlined"
-                fullWidth
-                required
-              />
-            </div>
-            <div className="text-center">
-              <Button variant="contained" type="submit">
-                Send Message
-              </Button>
-            </div>
-          </form>
-        </div>
-      </section>
+      <Contact /> {/* Include the Contact component here */}
     </div>
   );
 }
