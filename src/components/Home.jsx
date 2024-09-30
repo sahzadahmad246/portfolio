@@ -4,12 +4,23 @@ import { motion } from "framer-motion";
 import soniPainting from "./../images/sonipainting.png";
 import invoicer from "./../images/invoicer.png";
 import resturantApp from "./../images/thaichilli.png";
+import { useState } from "react";
 
 export default function Portfolio() {
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6 },
+  };
+
+  const [expanded, setExpanded] = useState([false, false, false]);
+
+  const handleToggle = (index) => {
+    setExpanded((prev) => {
+      const newExpanded = [...prev];
+      newExpanded[index] = !newExpanded[index];
+      return newExpanded;
+    });
   };
 
   const projects = [
@@ -33,6 +44,8 @@ export default function Portfolio() {
     },
   ];
 
+  const MAX_DESCRIPTION_LENGTH = 100; // Set a length for truncated descriptions
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Hero Section */}
@@ -50,6 +63,7 @@ export default function Portfolio() {
             Frontend Developer
           </p>
           <div className="flex justify-center space-x-4">
+            {/* Social Buttons */}
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Button
                 variant="outlined"
@@ -176,14 +190,73 @@ export default function Portfolio() {
                 <div className="p-6 bg-gray-100">
                   <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                   <p className="text-muted-foreground mb-4">
-                    {project.description}
+                    {expanded[index]
+                      ? project.description
+                      : `${project.description.slice(
+                          0,
+                          MAX_DESCRIPTION_LENGTH
+                        )}`}
+                    <span
+                      onClick={() => handleToggle(index)}
+                      className="text-blue-500 cursor-pointer"
+                      style={{ marginLeft: "5px" }} // Adds a bit of spacing before "See More/Less"
+                    >
+                      {expanded[index] ? "See Less" : "See More"}
+                    </span>
                   </p>
-                  <Button
-                    variant="contained"
-                    className="bg-black text-white hover:bg-black-700"
-                  >
-                    View Project
-                  </Button>
+
+                  <div className="flex justify-between">
+                    {/* View Project Button */}
+                    <Button
+                      variant="contained"
+                      className="mr-2"
+                      onClick={() => {
+                        if (project.title === "Soni Painting Services") {
+                          window.open("https://sonipainting.com/", "_blank");
+                        } else if (project.title === "Invoicer") {
+                          window.open(
+                            "https://invoicer-1c55.onrender.com/",
+                            "_blank"
+                          );
+                        } else if (
+                          project.title === "Thai Chilli Food Ordering"
+                        ) {
+                          window.open(
+                            "https://resfront.onrender.com/",
+                            "_blank"
+                          );
+                        }
+                      }}
+                    >
+                      View Project
+                    </Button>
+                    {/* View Code Button */}
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        if (project.title === "Soni Painting Services") {
+                          window.open(
+                            "https://github.com/sahzadahmad246/sonipainting",
+                            "_blank"
+                          );
+                        } else if (project.title === "Invoicer") {
+                          window.open(
+                            "https://github.com/sahzadahmad246/invoicer",
+                            "_blank"
+                          );
+                        } else if (
+                          project.title === "Thai Chilli Food Ordering"
+                        ) {
+                          window.open(
+                            "https://github.com/sahzadahmad246/resfront",
+                            "_blank"
+                          );
+                        }
+                      }}
+                    >
+                      View Code
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -191,36 +264,46 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Contact Form */}
-      <motion.section
-        className="py-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="container mx-auto px-4 max-w-md">
+      {/* Contact Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Contact Me</h2>
-          <form className="space-y-4">
-            <TextField placeholder="Your Name" fullWidth />
-            <TextField type="email" placeholder="Your Email" fullWidth />
-            <TextField
-              placeholder="Your Message"
-              fullWidth
-              multiline
-              rows={4}
-            />
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button fullWidth>Send Message</Button>
-            </motion.div>
+          <form className="max-w-lg mx-auto">
+            <div className="mb-4">
+              <TextField
+                label="Your Name"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <TextField
+                label="Your Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <TextField
+                label="Message"
+                multiline
+                rows={4}
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </div>
+            <div className="text-center">
+              <Button variant="contained" type="submit">
+                Send Message
+              </Button>
+            </div>
           </form>
         </div>
-      </motion.section>
-
-      {/* Footer */}
-      <footer className="py-6 text-center text-muted-foreground">
-        <p>&copy; 2023 Shahzad Ahmad. All rights reserved.</p>
-      </footer>
+      </section>
     </div>
   );
 }
