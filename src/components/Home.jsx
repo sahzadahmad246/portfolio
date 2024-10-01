@@ -1,11 +1,14 @@
-import { Button, TextField } from "@mui/material";
+import React from 'react';
+import { Button } from "@mui/material";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { motion } from "framer-motion";
+import ProjectCard from './ProjectCard';
+import Contact from "./Contact";
+
+// Import your images
 import soniPainting from "./../images/sonipainting.png";
 import invoicer from "./../images/invoicer.png";
 import resturantApp from "./../images/thaichilli.png";
-import { useState } from "react";
-import Contact from "./Contact"; // Import the Contact component
 
 export default function Portfolio() {
   const fadeInUp = {
@@ -14,38 +17,29 @@ export default function Portfolio() {
     transition: { duration: 0.6 },
   };
 
-  const [expanded, setExpanded] = useState([false, false, false]);
-
-  const handleToggle = (index) => {
-    setExpanded((prev) => {
-      const newExpanded = [...prev];
-      newExpanded[index] = !newExpanded[index];
-      return newExpanded;
-    });
-  };
-
   const projects = [
     {
       title: "Soni Painting Services",
       image: soniPainting,
-      description:
-        "A website for a painting service business. Built using MERN stack (React, Express, MongoDB, Node.js) with features like user login, reviews, ratings, services listing, and an online quotation generator.",
+      description: "A website for a painting service business. Built using MERN stack (React, Express, MongoDB, Node.js) with features like user login, reviews, ratings, services listing, and an online quotation generator.",
+      projectUrl: "https://sonipainting.com/",
+      codeUrl: "https://github.com/sahzadahmad246/sonipainting"
     },
     {
       title: "Invoicer",
       image: invoicer,
-      description:
-        "A billing generation app for shopkeepers built with MERN stack. It allows shop owners to list products and generate invoices by selecting from the product list.",
+      description: "A billing generation app for shopkeepers built with MERN stack. It allows shop owners to list products and generate invoices by selecting from the product list.",
+      projectUrl: "https://invoicer-1c55.onrender.com/",
+      codeUrl: "https://github.com/sahzadahmad246/invoicer"
     },
     {
       title: "Thai Chilli Food Ordering",
       image: resturantApp,
-      description:
-        "A food ordering app with an admin panel for managing orders and updating order statuses. Built using MERN stack for efficient order management.",
-    },
+      description: "A food ordering app with an admin panel for managing orders and updating order statuses. Built using MERN stack for efficient order management.",
+      projectUrl: "https://resfront.onrender.com/",
+      codeUrl: "https://github.com/sahzadahmad246/resturant-frontend"
+    }
   ];
-
-  const MAX_DESCRIPTION_LENGTH = 100; // Set a length for truncated descriptions
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -115,6 +109,7 @@ export default function Portfolio() {
           </div>
         </motion.div>
       </section>
+
       {/* About Me Section */}
       <motion.section
         className="py-20 bg-gray-100"
@@ -132,6 +127,7 @@ export default function Portfolio() {
           </p>
         </div>
       </motion.section>
+
       {/* Skills Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -163,50 +159,21 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
+
       {/* Projects Section */}
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                className="bg-background rounded-lg overflow-hidden shadow-lg"
-                whileHover={{ y: -5 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-              >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  width={400}
-                  height={200}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6 bg-gray-100">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4">
-                    {expanded[index]
-                      ? project.description
-                      : `${project.description.slice(MAX_DESCRIPTION_LENGTH)}`}
-                    <span
-                      onClick={() => handleToggle(index)}
-                      className="text-blue-500 cursor-pointer"
-                      style={{ marginLeft: "5px" }}
-                    >
-                      {expanded[index] ? "Show less" : "Read more"}
-                    </span>
-                  </p>
-                </div>
-              </motion.div>
+              <ProjectCard key={index} project={project} />
             ))}
           </div>
         </div>
       </section>
+
       {/* Contact Section */}
-      <Contact /> {/* Include the Contact component here */}
+      <Contact />
     </div>
   );
 }
